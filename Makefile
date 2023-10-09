@@ -1,7 +1,7 @@
-CFLAGS+= -Wall
+CFLAGS+= -Wall -Wno-unused-function
 LDADD+= -lX11 
 LDFLAGS=
-EXEC=catwm
+EXEC=katwm
 
 PREFIX?= /usr
 BINDIR?= $(PREFIX)/bin
@@ -10,11 +10,11 @@ CC=gcc
 
 all: $(EXEC)
 
-catwm: catwm.o
+katwm: katwm.o
 	$(CC) $(LDFLAGS) -Os -o $@ $+ $(LDADD)
 
 install: all
-	install -Dm 755 catwm $(DESTDIR)$(BINDIR)/catwm
+	install -Dm 755 katwm $(DESTDIR)$(BINDIR)/katwm
 
 clean:
-	rm -f catwm *.o
+	rm -f katwm *.o

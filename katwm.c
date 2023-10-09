@@ -29,7 +29,9 @@
  *
  */
 
+
 #include <X11/Xlib.h>
+#include <X11/XKBlib.h>
 #include <X11/keysym.h>
 #include <X11/XF86keysym.h>
 #include <X11/Xatom.h>
@@ -391,7 +393,7 @@ void destroynotify(XEvent *e) {
 }
 
 void die(const char* e) {
-    fprintf(stdout,"catwm: %s\n",e);
+    fprintf(stdout,"katwm: %s\n",e);
     exit(1);
 }
 
@@ -412,7 +414,7 @@ void quit() {
     if(bool_quit == 1) {
         XUngrabKey(dis, AnyKey, AnyModifier, root);
         XDestroySubwindows(dis, root);
-        fprintf(stdout, "catwm: Thanks for using!\n");
+        fprintf(stdout, "Katwm: Thanks for using!\n");
         XCloseDisplay(dis);
         die("forced shutdown");
     }
@@ -431,7 +433,7 @@ void quit() {
     }
 
     XUngrabKey(dis,AnyKey,AnyModifier,root);
-    fprintf(stdout,"catwm: Thanks for using!\n");
+    fprintf(stdout,"katwm: Thanks for using!\n");
 }
 
 
@@ -467,14 +469,15 @@ void increase() {
 void keypress(XEvent *e) {
     int i;
     XKeyEvent ke = e->xkey;
-    KeySym keysym = XKeycodeToKeysym(dis,ke.keycode,0);
+    KeySym keysym = XkbKeycodeToKeysym(dis, ke.keycode, 0, 0); // Use XkbKeycodeToKeysym
 
-    for(i=0;i<TABLENGTH(keys);++i) {
-        if(keys[i].keysym == keysym && keys[i].mod == ke.state) {
+    for (i = 0; i < TABLENGTH(keys); ++i) {
+        if (keys[i].keysym == keysym && keys[i].mod == ke.state) {
             keys[i].function(keys[i].arg);
         }
     }
 }
+
 
 void kill_client() {
 	if(current != NULL) {
@@ -652,7 +655,7 @@ static int xerror(Display *dpy, XErrorEvent *ee) {
     || (ee->request_code == X_ConfigureWindow && ee->error_code == BadAlloc) //      happen
     || (ee->request_code == X_SetInputFocus && ee->error_code == BadMatch))
         return 0;
-    fprintf(stderr, "catwm: fatal error: request code=%d, error code=%d\n",
+    fprintf(stderr, "Katwm: fatal error: request code=%d, error code=%d\n",
         ee->request_code, ee->error_code);
     return xerrorxlib(dpy, ee); // may call exit
 }

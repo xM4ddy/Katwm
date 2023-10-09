@@ -1,6 +1,6 @@
 personal fork of CATWM.
 
-CATWM
+KATWM
 =====
 
      /\___/\
@@ -13,7 +13,7 @@ CATWM
 Summary
 -------
 
-catwm is a very simple and lightweight tiling window manager.
+Katwm is a very simple and lightweight tiling window manager.
 I will try to stay under 1000 SLOC.
 
 Status
